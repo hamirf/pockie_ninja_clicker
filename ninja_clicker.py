@@ -42,14 +42,35 @@ FILE NAMING:
     tool for "pick the colorful one out of a row of look-alikes".
 
 SCOPING TO A SECTION (restrict a template to one area of the screen):
-    Put a section's anchor screenshot and the button(s)/icon(s) that
-    belong to it in the SAME subfolder under templates/. The lowest-
-    priority _noclick file in that folder is the section's anchor: its
-    detected bounding box becomes the ONLY area searched for the other
-    templates in that folder. If the anchor isn't on screen, those
-    templates are skipped entirely that cycle.
+    Two ways to scope a subfolder's templates to one area of the screen —
+    pick whichever fits:
 
-    Example:
+    A) IMAGE ANCHOR (content-based, adapts if the UI moves):
+       Put a section's anchor screenshot and the button(s)/icon(s) that
+       belong to it in the SAME subfolder under templates/. The lowest-
+       priority _noclick file in that folder is the section's anchor: its
+       detected bounding box becomes the ONLY area searched for the other
+       templates in that folder. If the anchor isn't on screen, those
+       templates are skipped entirely that cycle.
+
+    B) FIXED region.txt (position-based, immune to changing text/numbers):
+       Put a "region.txt" file (format: x,y,width,height in screen pixels)
+       directly inside the subfolder. That fixed box is used instead of
+       looking for a _noclick anchor at all. Use this when a section's
+       ON-SCREEN POSITION never changes but its CONTENT does — e.g. three
+       stacked difficulty rows (Rampage/Hard/Normal) that only differ by
+       Level/Honor/Damage numbers: an anchor screenshot of "Normal" will
+       stop matching the moment those numbers change, but a fixed region
+       for "wherever the bottom row always sits" never goes stale.
+       Use find_coords.py to read pixel coordinates off your screen.
+
+    Example (fixed region for a row whose numbers keep changing):
+        templates/
+            tailed_beast_normal/
+                region.txt                        <- "480,610,320,60" etc.
+                03_fight_button_click.png          <- only searched inside that box
+
+    Example (image anchor for a row that stays visually constant):
         templates/
             01_stage_banner_click.png            <- click to open the stage
             02_close_button_click_delay800.png   <- global; waits 800ms after clicking
@@ -96,6 +117,7 @@ SCAN_INTERVAL = 0.15      # seconds between screen scans (replaces your fixed de
 CLICK_COOLDOWN = 0.5      # default minimum seconds between two clicks (see _delayNN to override per step)
 RELOAD_INTERVAL = 3.0     # seconds between rescans of the templates folder
 REGION = None             # e.g. (x, y, width, height) to limit the GLOBAL search area
+REGION_FILENAME = "region.txt"  # optional per-folder fixed-region override (see docstring)
 
 paused = False
 running = True
@@ -166,12 +188,21 @@ def request_reload():
     force_reload = True
 
 
+warned_region_too_small = set()
+
+
 def locate(tpl, region):
     try:
         return pyautogui.locateOnScreen(
             tpl["path"], confidence=tpl["confidence"], region=region
         )
     except NOT_FOUND_EXCEPTIONS:
+        return None
+    except ValueError:
+        if tpl["name"] not in warned_region_too_small:
+            print(f"[WARN] {tpl['name']}: search area (region.txt or scope) is smaller than "
+                  f"the template image — widen it. Skipping this template until fixed.")
+            warned_region_too_small.add(tpl["name"])
         return None
 
 
@@ -195,6 +226,12 @@ def locate_colorful(tpl, region):
             tpl["path"], confidence=tpl["confidence"], region=region
         ))
     except NOT_FOUND_EXCEPTIONS:
+        boxes = []
+    except ValueError:
+        if tpl["name"] not in warned_region_too_small:
+            print(f"[WARN] {tpl['name']}: search area (region.txt or scope) is smaller than "
+                  f"the template image — widen it. Skipping this template until fixed.")
+            warned_region_too_small.add(tpl["name"])
         boxes = []
 
     if not boxes:
@@ -234,6 +271,11 @@ def resolve_scope_regions(templates, seen_noclick):
             region_cache[scope] = None
             continue
 
+        manual_region = load_manual_region(scope)
+        if manual_region is not None:
+            region_cache[scope] = manual_region
+            continue
+
         anchor = anchors.get(scope)
         if anchor is None:
             region_cache[scope] = None
@@ -255,6 +297,27 @@ def resolve_scope_regions(templates, seen_noclick):
 def _parent_of(scope):
     p = Path(scope).parent
     return "" if p == Path(".") else p.as_posix()
+
+
+def load_manual_region(scope: str):
+    """
+    If templates/<scope>/region.txt exists (format: "x,y,width,height"),
+    that fixed pixel box is used as this scope's search area instead of
+    detecting a _noclick anchor image. Use this when the section's position
+    on screen is stable but its content (numbers, stats) changes over time,
+    which would make an image-based anchor go stale.
+    """
+    region_file = TEMPLATES_DIR / scope / REGION_FILENAME
+    if not region_file.exists():
+        return None
+    try:
+        parts = [int(p.strip()) for p in region_file.read_text().strip().split(",")]
+        if len(parts) != 4:
+            raise ValueError
+        return tuple(parts)
+    except ValueError:
+        print(f"[WARN] {region_file} must contain 4 comma-separated ints: x,y,width,height")
+        return None
 
 
 def scan_step(templates, seen_noclick):
@@ -338,6 +401,7 @@ def main():
             if new_templates != templates:
                 templates = new_templates
                 seen_noclick.clear()
+                warned_region_too_small.clear()
                 print(f"[RELOADED] {describe(templates)}")
             last_reload = now
             force_reload = False
