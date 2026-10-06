@@ -1,0 +1,24 @@
+{
+  "battle_icon.png": {
+    "priority": 1,
+    "min_saturation": 96
+  },
+  "close_button.png": {
+    "priority": 2
+  },
+  "stage_one_val_66_hard.png": {
+    "priority": 3
+  },
+  "stage_two_val_66_hard.png": {
+    "priority": 4
+  },
+  "stage_three_val_66_hard.png": {
+    "priority": 5
+  },
+  "stage_four_val_66_hard.png": {
+    "priority": 6
+  },
+  "exit_stage_icon.png": {
+    "priority": 7
+  }
+}

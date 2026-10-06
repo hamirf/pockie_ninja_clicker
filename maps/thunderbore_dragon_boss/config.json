@@ -1,0 +1,26 @@
+{
+  "thunderbore_dragon.png": {
+    "priority": 1
+  },
+  "demon_boss_confirmation/demon_boss_confirm_section.png": {
+    "priority": 2,
+    "click": false
+  },
+  "demon_boss_confirmation/demon_boss_section.png": {
+    "priority": 2,
+    "click": false
+  },
+  "demon_boss_confirmation/accept_button.png": {
+    "priority": 3
+  },
+  "demon_boss_confirmation/fight_button.png": {
+    "priority": 3
+  },
+  "demon_boss_finished/thunderbore_dragon_finish_section.png": {
+    "priority": 4,
+    "click": false
+  },
+  "demon_boss_finished/close_button.png": {
+    "priority": 5
+  }
+}

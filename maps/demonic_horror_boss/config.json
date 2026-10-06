@@ -1,0 +1,11 @@
+{
+  "demonic_horror.png": {
+    "priority": 1
+  },
+  "accept_button.png": {
+    "priority": 2
+  },
+  "close_button.png": {
+    "priority": 3
+  }
+}

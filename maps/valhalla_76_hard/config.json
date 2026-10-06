@@ -1,0 +1,45 @@
+{
+  "battle_icon.png": {
+    "priority": 1,
+    "min_saturation": 96
+  },
+  "close_button.png": {
+    "priority": 2
+  },
+  "stage_one_val_76_hard.png": {
+    "priority": 3
+  },
+  "stage_two_val_76_hard.png": {
+    "priority": 4
+  },
+  "stage_three_val_76_hard.png": {
+    "priority": 5
+  },
+  "exit_stage_icon.png": {
+    "priority": 7
+  },
+  "valhalla_entrance.png": {
+    "priority": 8
+  },
+  "enter_valhalla_button.png": {
+    "priority": 9
+  },
+  "valhalla_76_building.png": {
+    "priority": 10
+  },
+  "valhalla_hard.png": {
+    "priority": 11
+  },
+  "valhalla_begin_button.png": {
+    "priority": 12
+  },
+  "valhalla_flip_card.png": {
+    "priority": 13
+  },
+  "collect_valhalla_flip_card.png": {
+    "priority": 14
+  },
+  "valhalla_finish.png": {
+    "priority": 15
+  }
+}

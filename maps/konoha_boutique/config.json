@@ -1,0 +1,34 @@
+{
+  "_defaults": {
+    "pre_delay_ms": 1000
+  },
+  "free_coins_button.png": {
+    "priority": 1,
+    "min_saturation": 82
+  },
+  "accept_button.png": {
+    "priority": 2
+  },
+  "claim_bonus.png": {
+    "priority": 2
+  },
+  "claim_double_chance.png": {
+    "priority": 2,
+    "min_saturation": 83
+  },
+  "double_chance.png": {
+    "priority": 2
+  },
+  "bonus_chest.png": {
+    "priority": 3,
+    "min_saturation": 106
+  },
+  "kb_ok_button.png": {
+    "priority": 4,
+    "min_saturation": 83
+  },
+  "konoha_boutique_max_bet_button.png": {
+    "priority": 5,
+    "min_saturation": 82
+  }
+}

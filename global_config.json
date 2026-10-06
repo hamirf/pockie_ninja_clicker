@@ -1,0 +1,6 @@
+{
+  "_defaults": {
+    "pre_delay_ms": 2500,
+    "delay_ms": 2500
+  }
+}

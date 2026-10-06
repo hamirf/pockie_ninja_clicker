@@ -1,0 +1,56 @@
+{
+  "close_button.png": {
+    "priority": 2
+  },
+  "seven_tailed_beast.png": {
+    "priority": 3
+  },
+  "seven2_tailed_beast.png": {
+    "priority": 3
+  },
+  "seven3_tailed_beast.png": {
+    "priority": 3
+  },
+  "rampage_six_tailed_beast.png": {
+    "priority": 4
+  },
+  "six_tailed_beast.png": {
+    "priority": 4
+  },
+  "six2_tailed_beast.png": {
+    "priority": 4
+  },
+  "five_tailed_beast.png": {
+    "priority": 5
+  },
+  "four_tailed_beast.png": {
+    "priority": 6
+  },
+  "four1_tailed_beast.png": {
+    "priority": 6
+  },
+  "rampage_four_tailed_beast.png": {
+    "priority": 6
+  },
+  "rampage_three_tailed_beast.png": {
+    "priority": 7
+  },
+  "three_tailed_beast.png": {
+    "priority": 7
+  },
+  "rampage_two_tailed_beast.png": {
+    "priority": 8
+  },
+  "rampage2_two_tailed_beast.png": {
+    "priority": 8
+  },
+  "two_tailed_beast.png": {
+    "priority": 8
+  },
+  "one_tailed_beast.png": {
+    "priority": 9
+  },
+  "tailed_beast_normal/tailed_beast_fight_button.png": {
+    "priority": 1
+  }
+}
